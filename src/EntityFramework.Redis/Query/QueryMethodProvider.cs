@@ -29,7 +29,7 @@ namespace Microsoft.Data.Entity.Redis.Query
 
         [UsedImplicitly]
         private static IEnumerable<TEntity> ExecuteMaterializationQueryExpression<TEntity>(
-            QueryContext queryContext, RedisQuery redisQuery)
+            QueryContext queryContext, RedisQuery redisQuery, bool queryStateManager)
             where TEntity : class, new()
         {
             var redisQueryContext = (RedisQueryContext)queryContext;
@@ -38,7 +38,7 @@ namespace Microsoft.Data.Entity.Redis.Query
                 .GetResultsEnumerable(redisQuery)
                 .Select(objectArray
                     => (TEntity)redisQueryContext.QueryBuffer
-                        .GetEntity(redisQuery.EntityType, new ObjectArrayValueReader(objectArray)));
+                        .GetEntity(redisQuery.EntityType, new ObjectArrayValueReader(objectArray), queryStateManager));
         }
 
         private static readonly MethodInfo _executeProjectionQueryExpressionMethodInfo =

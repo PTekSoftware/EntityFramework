@@ -79,11 +79,6 @@ namespace Microsoft.Data.Entity.Query
 
         public virtual object GetEntity(IEntityType entityType, IValueReader valueReader, bool queryStateManager)
         {
-            // need to check if AsNoTracking is set, if set, skip
-
-            //var asNoTracking = AsNoTracking();
-            // are we operating on an AsNoTrackingResultOperator or does the result tree contain an AsNoTrackingExpressionNode?
-
             Check.NotNull(entityType, "entityType");
             Check.NotNull(valueReader, "valueReader");
 

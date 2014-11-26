@@ -43,6 +43,12 @@ namespace Microsoft.Data.Entity.Redis.Query
                 {
                     methodInfo = methodProvider.MaterializationQueryMethod
                         .MakeGenericMethod(elementType);
+
+                    return Expression.Call(
+                        methodInfo,
+                        QueryContextParameter,
+                        Expression.Constant(redisQuery),
+                        Expression.Constant(QueryModelVisitor.QuerySourceRequiresTracking(_querySource)));
                 }
 
                 return Expression.Call(

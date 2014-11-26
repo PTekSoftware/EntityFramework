@@ -38,7 +38,7 @@ namespace Microsoft.Data.Entity.Query
         private StreamedSequenceInfo _streamedSequenceInfo;
 
         private ISet<IQuerySource> _querySourcesRequiringMaterialization;
-        private ISet<IQuerySource> _querySourcesRequiringTracking;
+        private ISet<IQuerySource> _querySourcesWithoutTracking;
 
         // TODO: Can these be non-blocking?
         private bool _blockTaskExpressions = true;
@@ -100,9 +100,10 @@ namespace Microsoft.Data.Entity.Query
 
                 var queryAnnotations = ExtractQueryAnnotations(queryModel);
 
-                _querySourcesRequiringTracking = new HashSet<IQuerySource>(
-                    queryAnnotations.Select(qa => qa.QuerySource)
-                    .Where(en => en is AsNoTrackingExpressionNode));
+                //_querySourcesWithoutTracking = new HashSet<IQuerySource>(
+                //    queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
+                //    .Select(qa => qa.QuerySource));
+                VisitQuerySource(queryAnnotations);
 
                 OptimizeQueryModel(queryModel, queryAnnotations);
 
@@ -128,9 +129,10 @@ namespace Microsoft.Data.Entity.Query
 
                 var queryAnnotations = ExtractQueryAnnotations(queryModel);
 
-                _querySourcesRequiringTracking = new HashSet<IQuerySource>(
-                    queryAnnotations.Select(qa => qa.QuerySource)
-                    .Where(en => en is AsNoTrackingExpressionNode));
+                //_querySourcesWithoutTracking = new HashSet<IQuerySource>(
+                //    queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
+                //    .Select(qa => qa.QuerySource));
+                VisitQuerySource(queryAnnotations);
 
                 OptimizeQueryModel(queryModel, queryAnnotations);
 
@@ -151,6 +153,15 @@ namespace Microsoft.Data.Entity.Query
             Check.NotNull(queryModel, "queryModel");
 
             return new QueryAnnotationExtractor().ExtractQueryAnnotations(queryModel);
+        }
+
+        protected virtual void VisitQuerySource([NotNull] ICollection<QueryAnnotation> queryAnnotations)
+        {
+            Check.NotNull(queryAnnotations, "queryAnnotations");
+
+            _querySourcesWithoutTracking = new HashSet<IQuerySource>(
+                queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
+                .Select(qa => qa.QuerySource));
         }
 
         protected virtual void OptimizeQueryModel(
@@ -383,7 +394,8 @@ namespace Microsoft.Data.Entity.Query
         {
             Check.NotNull(querySource, "querySource");
 
-            return _querySourcesRequiringTracking.Contains(querySource);
+            return _querySourcesWithoutTracking != null &&
+                   !_querySourcesWithoutTracking.Contains(querySource);
         }
 
         public override void VisitQueryModel([NotNull] QueryModel queryModel)

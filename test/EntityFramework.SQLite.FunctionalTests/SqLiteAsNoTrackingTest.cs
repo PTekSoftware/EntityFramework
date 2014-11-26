@@ -11,5 +11,10 @@ namespace Microsoft.Data.Entity.Sqlite.FunctionalTests
             : base(fixture)
         {
         }
+
+        public override void Applied_to_projection()
+        {
+            base.Applied_to_projection();
+        }
     }
 }
