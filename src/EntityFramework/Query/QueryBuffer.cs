@@ -74,6 +74,16 @@ namespace Microsoft.Data.Entity.Query
 
         public virtual object GetEntity(IEntityType entityType, IValueReader valueReader)
         {
+            return GetEntity(entityType, valueReader, queryStateManager: true);
+        }
+
+        public virtual object GetEntity(IEntityType entityType, IValueReader valueReader, bool queryStateManager)
+        {
+            // need to check if AsNoTracking is set, if set, skip
+
+            //var asNoTracking = AsNoTracking();
+            // are we operating on an AsNoTrackingResultOperator or does the result tree contain an AsNoTrackingExpressionNode?
+
             Check.NotNull(entityType, "entityType");
             Check.NotNull(valueReader, "valueReader");
 
@@ -92,7 +102,7 @@ namespace Microsoft.Data.Entity.Query
 
             var stateEntry = _stateManager.TryGetEntry(entityKey);
 
-            if (stateEntry != null)
+            if (queryStateManager && stateEntry != null)
             {
                 return stateEntry.Entity;
             }

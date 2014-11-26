@@ -38,6 +38,7 @@ namespace Microsoft.Data.Entity.Query
         private StreamedSequenceInfo _streamedSequenceInfo;
 
         private ISet<IQuerySource> _querySourcesRequiringMaterialization;
+        private ISet<IQuerySource> _querySourcesRequiringTracking;
 
         // TODO: Can these be non-blocking?
         private bool _blockTaskExpressions = true;
@@ -99,6 +100,10 @@ namespace Microsoft.Data.Entity.Query
 
                 var queryAnnotations = ExtractQueryAnnotations(queryModel);
 
+                _querySourcesRequiringTracking = new HashSet<IQuerySource>(
+                    queryAnnotations.Select(qa => qa.QuerySource)
+                    .Where(en => en is AsNoTrackingExpressionNode));
+
                 OptimizeQueryModel(queryModel, queryAnnotations);
 
                 VisitQueryModel(queryModel);
@@ -122,6 +127,10 @@ namespace Microsoft.Data.Entity.Query
                 _blockTaskExpressions = false;
 
                 var queryAnnotations = ExtractQueryAnnotations(queryModel);
+
+                _querySourcesRequiringTracking = new HashSet<IQuerySource>(
+                    queryAnnotations.Select(qa => qa.QuerySource)
+                    .Where(en => en is AsNoTrackingExpressionNode));
 
                 OptimizeQueryModel(queryModel, queryAnnotations);
 
@@ -368,6 +377,13 @@ namespace Microsoft.Data.Entity.Query
             Check.NotNull(querySource, "querySource");
 
             return _querySourcesRequiringMaterialization.Contains(querySource);
+        }
+
+        public virtual bool QuerySourceRequiresTracking([NotNull] IQuerySource querySource)
+        {
+            Check.NotNull(querySource, "querySource");
+
+            return _querySourcesRequiringTracking.Contains(querySource);
         }
 
         public override void VisitQueryModel([NotNull] QueryModel queryModel)
