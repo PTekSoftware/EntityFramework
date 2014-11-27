@@ -16,16 +16,17 @@ namespace Microsoft.Framework.DependencyInjection
             Check.NotNull(builder, "builder");
 
             builder.ServiceCollection
-                .AddSingleton<RedisValueGeneratorSelector>()
-                .AddSingleton<RedisValueGeneratorCache>()
-                .AddSingleton<RedisValueGeneratorFactory>()
                 .AddScoped<DataStoreSource, RedisDataStoreSource>()
-                .AddScoped<RedisOptionsExtension>()
-                .AddScoped<RedisDataStore>()
-                .AddScoped<RedisDataStoreServices>()
-                .AddScoped<RedisConnection>()
-                .AddScoped<RedisDataStoreCreator>()
-                .AddScoped<RedisDatabase>();
+                .TryAdd(new ServiceCollection()
+                    .AddSingleton<RedisValueGeneratorSelector>()
+                    .AddSingleton<RedisValueGeneratorCache>()
+                    .AddSingleton<RedisValueGeneratorFactory>()
+                    .AddScoped<RedisOptionsExtension>()
+                    .AddScoped<RedisDataStore>()
+                    .AddScoped<RedisDataStoreServices>()
+                    .AddScoped<RedisConnection>()
+                    .AddScoped<RedisDataStoreCreator>()
+                    .AddScoped<RedisDatabase>());
 
             return builder;
         }
