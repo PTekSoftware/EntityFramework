@@ -1,9 +1,10 @@
-﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved.
+// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Data.Entity.Internal;
 
 namespace Microsoft.Data.Entity.Utilities
@@ -14,21 +15,21 @@ namespace Microsoft.Data.Entity.Utilities
         private readonly Dictionary<TVertex, int> _predecessorCounts = new Dictionary<TVertex, int>();
         private readonly Dictionary<TVertex, HashSet<TVertex>> _successorMap = new Dictionary<TVertex, HashSet<TVertex>>();
 
-        public override void AddVertex(TVertex vertex)
+        public virtual void AddVertex([NotNull] TVertex vertex)
         {
             Check.NotNull(vertex, "vertex");
 
             _vertices.Add(vertex);
         }
 
-        public override void AddVertices(IEnumerable<TVertex> vertices)
+        public virtual void AddVertices([NotNull] IEnumerable<TVertex> vertices)
         {
             Check.NotNull(vertices, "vertices");
 
             _vertices.UnionWith(vertices);
         }
 
-        public override void AddEdge(TVertex from, TVertex to)
+        public virtual void AddEdge([NotNull] TVertex from, [NotNull] TVertex to)
         {
             Check.NotNull(from, "from");
             Check.NotNull(to, "to");
@@ -59,12 +60,13 @@ namespace Microsoft.Data.Entity.Utilities
             }
         }
 
-        public override IEnumerable<List<TVertex>> TopologicalSort()
+        public virtual IEnumerable<List<TVertex>> TopologicalSort()
         {
             var currentRootsPriorityQueue = new List<TVertex>();
             var nextRootsPriorityQueue = new List<TVertex>();
             var predecessorCounts = new Dictionary<TVertex, int>(_predecessorCounts);
 
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var element in _vertices)
             {
                 if (!predecessorCounts.ContainsKey(element))
@@ -155,8 +157,8 @@ namespace Microsoft.Data.Entity.Utilities
         public override IEnumerable<TVertex> GetIncomingNeighbours(TVertex to)
         {
             return from vertexSuccessors in _successorMap
-                   where vertexSuccessors.Value.Contains(to)
-                   select vertexSuccessors.Key;
+                where vertexSuccessors.Value.Contains(to)
+                select vertexSuccessors.Key;
         }
     }
 }
