@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{35BED7DE-CA6F-41EA-91E3-25CA7295C7B9}"
 EndProject
@@ -64,6 +64,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.CrossStore.FunctionalTests", "test\EntityFramework.CrossStore.FunctionalTests\EntityFramework.CrossStore.FunctionalTests.csproj", "{A3DE8824-240C-4313-8C36-264BCCEF8B54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Microbenchmarks", "test\Perf\EntityFramework.Microbenchmarks\EntityFramework.Microbenchmarks.csproj", "{F44DC472-86A1-4A60-B5C4-98D76D7B34AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Migrations.FunctionalTests", "test\EntityFramework.Migrations.FunctionalTests\EntityFramework.Migrations.FunctionalTests.csproj", "{E6BE4866-2B1B-4E0D-AE05-29777B81362A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,6 +185,10 @@ Global
 		{F44DC472-86A1-4A60-B5C4-98D76D7B34AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F44DC472-86A1-4A60-B5C4-98D76D7B34AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F44DC472-86A1-4A60-B5C4-98D76D7B34AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6BE4866-2B1B-4E0D-AE05-29777B81362A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6BE4866-2B1B-4E0D-AE05-29777B81362A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6BE4866-2B1B-4E0D-AE05-29777B81362A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6BE4866-2B1B-4E0D-AE05-29777B81362A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,5 +223,6 @@ Global
 		{43FC8426-D120-44F7-B6D7-6F256D78B5BE} = {547020C0-976F-4542-81CE-7FD465595614}
 		{A3DE8824-240C-4313-8C36-264BCCEF8B54} = {547020C0-976F-4542-81CE-7FD465595614}
 		{F44DC472-86A1-4A60-B5C4-98D76D7B34AF} = {FBEBCED5-F50F-4F2F-954F-5F2E65777672}
+		{E6BE4866-2B1B-4E0D-AE05-29777B81362A} = {547020C0-976F-4542-81CE-7FD465595614}
 	EndGlobalSection
 EndGlobal
