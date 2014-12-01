@@ -67,7 +67,7 @@ namespace Microsoft.Data.Entity.Relational.Query.ExpressionTreeVisitors
                             newExpression.Arguments[2]);
                 }
             }
-
+            
             if (ReferenceEquals(newExpression.Method, RelationalQueryModelVisitor.CreateValueReaderMethodInfo)
                 || newExpression.Method.MethodIsClosedFormOf(RelationalQueryModelVisitor.CreateEntityMethodInfo))
             {
@@ -82,7 +82,7 @@ namespace Microsoft.Data.Entity.Relational.Query.ExpressionTreeVisitors
                     var newArguments = new List<Expression>(newExpression.Arguments);
                     newArguments[2] = _outerShaperExpression;
 
-                    if (newArguments.Count == 6)
+                    if (newArguments.Count == 7) // count of arguments for RelationalQueryModelVisitor.CreateEntityMethod
                     {
                         newArguments[4]
                             = Expression.Constant(
