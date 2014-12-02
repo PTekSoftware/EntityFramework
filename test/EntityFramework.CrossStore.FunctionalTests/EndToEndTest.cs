@@ -123,11 +123,6 @@ namespace Microsoft.Data.Entity.FunctionalTests
             : base(fixture)
         {
         }
-
-        public override void Can_save_changes_and_query()
-        {
-            base.Can_save_changes_and_query();
-        }
     }
 
     public class SqlServerEndToEndTest : EndToEndTest<SqlServerTestStore, SqlServerCrossStoreFixture>
@@ -135,11 +130,6 @@ namespace Microsoft.Data.Entity.FunctionalTests
         public SqlServerEndToEndTest(SqlServerCrossStoreFixture fixture)
             : base(fixture)
         {
-        }
-
-        public override void Can_save_changes_and_query()
-        {
-            base.Can_save_changes_and_query();
         }
     }
 }

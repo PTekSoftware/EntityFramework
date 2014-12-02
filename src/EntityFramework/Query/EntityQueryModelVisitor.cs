@@ -39,6 +39,7 @@ namespace Microsoft.Data.Entity.Query
 
         private ISet<IQuerySource> _querySourcesRequiringMaterialization;
         private ISet<IQuerySource> _querySourcesWithoutTracking;
+        private ICollection<QueryAnnotation> _queryAnnotations;
 
         // TODO: Can these be non-blocking?
         private bool _blockTaskExpressions = true;
@@ -98,22 +99,17 @@ namespace Microsoft.Data.Entity.Query
             {
                 _blockTaskExpressions = false;
 
-                var queryAnnotations = ExtractQueryAnnotations(queryModel);
+                _queryAnnotations = ExtractQueryAnnotations(queryModel);
 
-                //_querySourcesWithoutTracking = new HashSet<IQuerySource>(
-                //    queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
-                //    .Select(qa => qa.QuerySource));
-                VisitQuerySource(queryAnnotations);
-
-                OptimizeQueryModel(queryModel, queryAnnotations);
+                OptimizeQueryModel(queryModel, _queryAnnotations);
 
                 VisitQueryModel(queryModel);
 
                 SingleResultToSequence(queryModel, typeof(TResult));
 
-                IncludeNavigations(queryModel, typeof(TResult), queryAnnotations);
+                IncludeNavigations(queryModel, typeof(TResult), _queryAnnotations);
 
-                TrackEntitiesInResults<TResult>(queryModel, queryAnnotations);
+                TrackEntitiesInResults<TResult>(queryModel, _queryAnnotations);
 
                 return CreateExecutorLambda<IEnumerable<TResult>>();
             }
@@ -127,22 +123,17 @@ namespace Microsoft.Data.Entity.Query
             {
                 _blockTaskExpressions = false;
 
-                var queryAnnotations = ExtractQueryAnnotations(queryModel);
-
-                //_querySourcesWithoutTracking = new HashSet<IQuerySource>(
-                //    queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
-                //    .Select(qa => qa.QuerySource));
-                VisitQuerySource(queryAnnotations);
-
-                OptimizeQueryModel(queryModel, queryAnnotations);
+                _queryAnnotations = ExtractQueryAnnotations(queryModel);
+                
+                OptimizeQueryModel(queryModel, _queryAnnotations);
 
                 VisitQueryModel(queryModel);
 
                 AsyncSingleResultToSequence(queryModel, typeof(TResult));
 
-                IncludeNavigations(queryModel, typeof(TResult), queryAnnotations);
+                IncludeNavigations(queryModel, typeof(TResult), _queryAnnotations);
 
-                TrackEntitiesInResults<TResult>(queryModel, queryAnnotations);
+                TrackEntitiesInResults<TResult>(queryModel, _queryAnnotations);
 
                 return CreateExecutorLambda<IAsyncEnumerable<TResult>>();
             }
@@ -154,16 +145,7 @@ namespace Microsoft.Data.Entity.Query
 
             return new QueryAnnotationExtractor().ExtractQueryAnnotations(queryModel);
         }
-
-        protected virtual void VisitQuerySource([NotNull] ICollection<QueryAnnotation> queryAnnotations)
-        {
-            Check.NotNull(queryAnnotations, "queryAnnotations");
-
-            _querySourcesWithoutTracking = new HashSet<IQuerySource>(
-                queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
-                .Select(qa => qa.QuerySource));
-        }
-
+        
         protected virtual void OptimizeQueryModel(
             [NotNull] QueryModel queryModel,
             [NotNull] ICollection<QueryAnnotation> queryAnnotations)
@@ -394,8 +376,9 @@ namespace Microsoft.Data.Entity.Query
         {
             Check.NotNull(querySource, "querySource");
 
-            return _querySourcesWithoutTracking != null &&
-                   !_querySourcesWithoutTracking.Contains(querySource);
+           return _queryAnnotations == null ||
+                !_queryAnnotations.Where(en => en.ResultOperator is AsNoTrackingResultOperator)
+                .Select(qa => qa.QuerySource).Contains(querySource);
         }
 
         public override void VisitQueryModel([NotNull] QueryModel queryModel)
