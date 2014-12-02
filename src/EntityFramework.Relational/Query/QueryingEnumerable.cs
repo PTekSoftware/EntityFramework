@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.Relational.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.Framework.Logging;
 
 namespace Microsoft.Data.Entity.Relational.Query

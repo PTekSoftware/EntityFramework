@@ -3,7 +3,7 @@
 
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.AzureTableStorage;
-using Microsoft.Data.Entity.AzureTableStorage.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
 // ReSharper disable once CheckNamespace

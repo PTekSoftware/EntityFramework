@@ -4,8 +4,8 @@
 using System;
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.AzureTableStorage.Metadata;
-using Microsoft.Data.Entity.AzureTableStorage.Utilities;
 using Microsoft.Data.Entity.Metadata;
+using Microsoft.Data.Entity.Utilities;
 
 // ReSharper disable once CheckNamespace
 

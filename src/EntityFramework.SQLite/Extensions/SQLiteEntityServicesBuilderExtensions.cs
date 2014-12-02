@@ -7,7 +7,7 @@ using Microsoft.Data.Entity.Migrations;
 using Microsoft.Data.Entity.Migrations.Infrastructure;
 using Microsoft.Data.Entity.Relational;
 using Microsoft.Data.Entity.Sqlite;
-using Microsoft.Data.Entity.Sqlite.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.Data.Entity.Sqlite.Metadata;
 using Microsoft.Data.Entity.Sqlite.Migrations;
 using Microsoft.Data.Entity.Storage;

@@ -130,7 +130,9 @@
     <Compile Include="Requests\TableOperationRequest.cs" />
     <Compile Include="Requests\TableRequest.cs" />
     <Compile Include="AtsTable.cs" />
-    <Compile Include="Utilities\Check.cs" />
+    <Compile Include="..\Shared\Check.cs" >
+        <Link>Utilities\Check.cs</Link>
+    </Compile>
     <Compile Include="Utilities\EntityTypeExtensions.cs" />
     <Compile Include="..\Shared\StringBuilderExtensions.cs" />
     <Compile Include="Utilities\StorageErrorCodes.cs" />

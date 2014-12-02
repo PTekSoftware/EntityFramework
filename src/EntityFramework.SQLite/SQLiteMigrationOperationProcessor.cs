@@ -10,7 +10,7 @@ using Microsoft.Data.Entity.Migrations;
 using Microsoft.Data.Entity.Migrations.Model;
 using Microsoft.Data.Entity.Relational;
 using Microsoft.Data.Entity.Sqlite.Metadata;
-using Microsoft.Data.Entity.Sqlite.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.Data.Entity.Sqlite.Migrations;
 
 namespace Microsoft.Data.Entity.Sqlite

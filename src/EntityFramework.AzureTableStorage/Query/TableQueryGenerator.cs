@@ -7,6 +7,7 @@ using System.Text;
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.AzureTableStorage.Query.Expressions;
 using Microsoft.Data.Entity.AzureTableStorage.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 using Remotion.Linq.Parsing;
 

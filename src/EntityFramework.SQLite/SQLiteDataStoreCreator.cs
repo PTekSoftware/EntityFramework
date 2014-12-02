@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Relational;
-using Microsoft.Data.Entity.Sqlite.Utilities;
+using Microsoft.Data.Entity.Utilities;
 using Microsoft.Data.SQLite;
 
 namespace Microsoft.Data.Entity.Sqlite

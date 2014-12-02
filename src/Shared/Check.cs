@@ -4,9 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using JetBrains.Annotations;
+//using Microsoft.Data.Entity.Internal;
+using Microsoft.Data.Entity.Relational;
 
-namespace Microsoft.Data.Entity.SqlServer.Utilities
+namespace Microsoft.Data.Entity.Utilities
 {
     [DebuggerStepThrough]
     internal static class Check
@@ -24,6 +27,22 @@ namespace Microsoft.Data.Entity.SqlServer.Utilities
         }
 
         [ContractAnnotation("value:null => halt")]
+        public static T NotNull<T>(
+            [NoEnumeration] T value,
+            [InvokerParameterName] [NotNull] string parameterName,
+            [NotNull] string propertyName)
+        {
+            if (ReferenceEquals(value, null))
+            {
+                NotEmpty(parameterName, "parameterName");
+                NotEmpty(propertyName, "propertyName");
+                throw new ArgumentException(propertyName, parameterName);
+            }
+
+            return value;
+        }
+
+        [ContractAnnotation("value:null => halt")]
         public static IReadOnlyList<T> NotEmpty<T>(IReadOnlyList<T> value, [InvokerParameterName] [NotNull] string parameterName)
         {
             NotNull(value, parameterName);
@@ -31,7 +50,7 @@ namespace Microsoft.Data.Entity.SqlServer.Utilities
             if (value.Count == 0)
             {
                 NotEmpty(parameterName, "parameterName");
-                throw new ArgumentException(Strings.CollectionArgumentIsEmpty(parameterName));
+                throw new ArgumentException(parameterName);
             }
 
             return value;
@@ -47,7 +66,7 @@ namespace Microsoft.Data.Entity.SqlServer.Utilities
             }
             else if (value.Trim().Length == 0)
             {
-                e = new ArgumentException(Strings.ArgumentIsEmpty(parameterName));
+                e = new ArgumentException(parameterName);
             }
 
             if (e != null)
@@ -65,7 +84,20 @@ namespace Microsoft.Data.Entity.SqlServer.Utilities
                 && value.Length == 0)
             {
                 NotEmpty(parameterName, "parameterName");
-                throw new ArgumentException(Strings.ArgumentIsEmpty(parameterName));
+                throw new ArgumentException(parameterName);
+            }
+
+            return value;
+        }
+        public static IReadOnlyList<T> HasNoNulls<T>(IReadOnlyList<T> value, [InvokerParameterName] [NotNull] string parameterName)
+            where T : class
+        {
+            NotNull(value, parameterName);
+
+            if (value.Any(e => e == null))
+            {
+                NotEmpty(parameterName, "parameterName");
+                throw new ArgumentException(parameterName);
             }
 
             return value;
@@ -77,7 +109,7 @@ namespace Microsoft.Data.Entity.SqlServer.Utilities
             if (!Enum.IsDefined(typeof(T), value))
             {
                 NotEmpty(parameterName, "parameterName");
-                throw new ArgumentException(Strings.InvalidEnumValue(parameterName, typeof(T)));
+                throw new ArgumentException(parameterName);
             }
 
             return value;

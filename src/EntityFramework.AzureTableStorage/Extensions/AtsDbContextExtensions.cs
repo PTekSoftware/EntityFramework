@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Data.Entity.AzureTableStorage;
 using Microsoft.Data.Entity.AzureTableStorage.Utilities;
 using Microsoft.Data.Entity.Infrastructure;
+using Microsoft.Data.Entity.Utilities;
 
 namespace Microsoft.Data.Entity
 {

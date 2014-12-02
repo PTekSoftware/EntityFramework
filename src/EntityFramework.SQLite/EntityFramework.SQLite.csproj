@@ -87,7 +87,9 @@
     <Compile Include="SQLiteValueGeneratorCache.cs" />
     <Compile Include="SQLiteValueGeneratorSelector.cs" />
     <Compile Include="SQLiteModelDiffer.cs" />
-    <Compile Include="Utilities\Check.cs" />
+    <Compile Include="..\Shared\Check.cs" >
+        <Link>Utilities\Check.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\CodeAnnotations.cs" />
     <Compile Include="..\Shared\StringBuilderExtensions.cs" />
     <Compile Include="Utilities\EnumerableExtensions.cs" />

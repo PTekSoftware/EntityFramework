@@ -90,7 +90,9 @@
     <Compile Include="RedisValueGeneratorCache.cs" />
     <Compile Include="RedisValueGeneratorFactory.cs" />
     <Compile Include="RedisValueGeneratorSelector.cs" />
-    <Compile Include="Utilities\Check.cs" />
+    <Compile Include="..\Shared\Check.cs" >
+        <Link>Utilities\Check.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\SharedTypeExtensions.cs" />
     <EmbeddedResource Include="Properties\Strings.resx">
       <LogicalName>EntityFramework.Redis.Strings.resources</LogicalName>
