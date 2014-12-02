@@ -721,7 +721,7 @@ namespace Microsoft.Data.Entity.Relational.Query
             {
                 valueReader = new OffsetValueReaderDecorator(valueReader, readerOffset);
             }
-           
+
             return new QuerySourceScope<TEntity>(
                 querySource,
                 (TEntity)queryContext.QueryBuffer.GetEntity(entityType, valueReader, queryStateManager),

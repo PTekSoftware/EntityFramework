@@ -11,10 +11,5 @@ namespace Microsoft.Data.Entity.SqlServer.FunctionalTests
             : base(fixture)
         {
         }
-
-        public override void Can_get_current_values()
-        {
-            base.Can_get_current_values();
-        }
     }
 }

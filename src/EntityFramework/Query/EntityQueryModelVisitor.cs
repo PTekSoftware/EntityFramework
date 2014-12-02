@@ -124,7 +124,7 @@ namespace Microsoft.Data.Entity.Query
                 _blockTaskExpressions = false;
 
                 _queryAnnotations = ExtractQueryAnnotations(queryModel);
-                
+
                 OptimizeQueryModel(queryModel, _queryAnnotations);
 
                 VisitQueryModel(queryModel);
@@ -145,7 +145,7 @@ namespace Microsoft.Data.Entity.Query
 
             return new QueryAnnotationExtractor().ExtractQueryAnnotations(queryModel);
         }
-        
+
         protected virtual void OptimizeQueryModel(
             [NotNull] QueryModel queryModel,
             [NotNull] ICollection<QueryAnnotation> queryAnnotations)

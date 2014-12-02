@@ -11,15 +11,5 @@ namespace Microsoft.Data.Entity.Redis.FunctionalTests
             : base(fixture)
         {
         }
-
-        public override void Can_get_current_values()
-        {
-            base.Can_get_current_values();
-        }
-
-        public override void Applied_to_body_clause()
-        {
-            base.Applied_to_body_clause();
-        }
     }
 }
